@@ -54,7 +54,7 @@ export class NotificationService {
         userId: notification.userId,
         status: 'PENDING' as NotificationStatus,
         data: notification.data,
-        originalNotificationId: notification.id
+        originalNotificationId: notification.uuid
       };
 
       await this.dynamoService.saveNotificationRecord(notificationRecord);
@@ -68,7 +68,7 @@ export class NotificationService {
         userEmail: notification.userEmail,
         userId: notification.userId,
         timestamp: timestamp,
-        notificationId: notification.id
+        notificationId: notification.uuid
       });
 
       // 4. Enviar email
@@ -88,6 +88,7 @@ export class NotificationService {
       // 5. Actualizar registro como SENT
       await this.dynamoService.updateNotificationStatus(
         notificationId,
+        timestamp,
         'SENT',
         new Date().toISOString(),
         info.messageId
@@ -105,8 +106,8 @@ export class NotificationService {
       // Actualizar registro como FAILED
       await this.dynamoService.updateNotificationStatus(
         notificationId,
+        timestamp,
         'FAILED',
-        undefined,
         undefined,
         (error as Error).message
       );
@@ -125,7 +126,7 @@ export class NotificationService {
         uuid: uuidv4(),
         createdAt: new Date().toISOString(),
         notificationId,
-        originalNotificationId: notification.id,
+        originalNotificationId: notification.uuid,
         notificationType: notification.type,
         userEmail: notification.userEmail,
         userId: notification.userId,
@@ -153,7 +154,7 @@ export class NotificationService {
 
   async sendTestNotification(userEmail: string): Promise<string> {
     const testNotification: NotificationData = {
-      id: uuidv4(),
+      uuid: uuidv4(),
       type: NotificationType.WELCOME,
       userEmail,
       userId: 'test-user',

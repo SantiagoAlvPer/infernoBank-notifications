@@ -1,11 +1,29 @@
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import Handlebars from 'handlebars';
 import { NotificationType } from '../common/types';
 
 interface TemplateData {
   subject: string;
   html: string;
   text: string;
+}
+
+interface EmailData {
+  userName?: string;
+  accountNumber?: string;
+  registrationDate?: string;
+  loginTime?: string;
+  ipAddress?: string;
+  device?: string;
+  amount?: number;
+  merchant?: string;
+  cardNumber?: string;
+  transactionDate?: string;
+  transactionId?: string;
+  cardType?: string;
+  expirationDate?: string;
+  activationRequired?: boolean;
+  url?: string;
+  [key: string]: any;
 }
 
 export class S3TemplateService {
@@ -17,55 +35,9 @@ export class S3TemplateService {
 
   constructor() {
     this.s3Client = new S3Client({ 
-      region: process.env.AWS_REGION || 'us-east-2' 
+      region: process.env.REGION || 'us-east-2' 
     });
-    this.templatesBucket = process.env.TEMPLATES_BUCKET || 'templates-email-notification';
-    
-    this.registerHandlebarsHelpers();
-  }
-
-  private registerHandlebarsHelpers(): void {
-    // Helper para formatear fechas
-    Handlebars.registerHelper('formatDate', (date: Date | string) => {
-      const d = typeof date === 'string' ? new Date(date) : date;
-      return d.toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    });
-
-    // Helper para formatear moneda
-    Handlebars.registerHelper('formatCurrency', (amount: number) => {
-      return new Intl.NumberFormat('es-ES', {
-        style: 'currency',
-        currency: 'EUR'
-      }).format(amount);
-    });
-
-    // Helper para formatear hora
-    Handlebars.registerHelper('formatTime', (date: Date | string) => {
-      const d = typeof date === 'string' ? new Date(date) : date;
-      return d.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    });
-
-    // Helper para año actual
-    Handlebars.registerHelper('currentYear', () => {
-      return new Date().getFullYear();
-    });
-
-    // Helper para capitalizar
-    Handlebars.registerHelper('capitalize', (str: string) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    });
-
-    // Helper para ocultar números de tarjeta
-    Handlebars.registerHelper('maskCard', (cardNumber: string) => {
-      return `****${cardNumber.slice(-4)}`;
-    });
+    this.templatesBucket = process.env.S3_BUCKET_NAME || 'infernobank-notifications-templates-dev-jwl7dsk2';
   }
 
   async getTemplate(type: NotificationType): Promise<TemplateData> {
@@ -93,10 +65,24 @@ export class S3TemplateService {
     const templatePath = this.getTemplatePath(type);
     
     try {
+      let subjectKey, htmlKey, textKey;
+      
+      if (type === NotificationType.WELCOME) {
+        // Welcome templates tienen nombres diferentes
+        subjectKey = 'welcome/subject.txt';
+        htmlKey = 'welcome/body.html';
+        textKey = 'welcome/body.txt';
+      } else {
+        // Otros templates siguen el patrón estándar
+        subjectKey = `${templatePath}-subject.txt`;
+        htmlKey = `${templatePath}-body.html`;
+        textKey = `${templatePath}-body.txt`;
+      }
+
       const [subjectContent, htmlContent, textContent] = await Promise.all([
-        this.getS3Object(`${templatePath}/subject.hbs`),
-        this.getS3Object(`${templatePath}/body.html.hbs`),
-        this.getS3Object(`${templatePath}/body.text.hbs`)
+        this.getS3Object(subjectKey),
+        this.getS3Object(htmlKey),
+        this.getS3Object(textKey)
       ]);
 
       return {
@@ -131,7 +117,7 @@ export class S3TemplateService {
 
   private getTemplatePath(type: NotificationType): string {
     const templatePaths: Record<NotificationType, string> = {
-      [NotificationType.WELCOME]: 'welcome',
+      [NotificationType.WELCOME]: 'welcome', // Solo para referencia, se maneja especial
       [NotificationType.USER_LOGIN]: 'user/login',
       [NotificationType.USER_UPDATE]: 'user/update',
       [NotificationType.CARD_CREATE]: 'card/create',
@@ -150,24 +136,41 @@ export class S3TemplateService {
     return path;
   }
 
-  renderTemplate(template: TemplateData, data: Record<string, any>): {
+  renderTemplate(template: TemplateData, data: EmailData): {
     subject: string;
     html: string;
     text: string;
   } {
     try {
-      const subjectTemplate = Handlebars.compile(template.subject);
-      const htmlTemplate = Handlebars.compile(template.html);
-      const textTemplate = Handlebars.compile(template.text);
+      // Simple string replacement instead of Handlebars
+      const subject = this.replaceVariables(template.subject, data);
+      const html = this.replaceVariables(template.html, data);
+      const text = this.replaceVariables(template.text, data);
 
-      return {
-        subject: subjectTemplate(data),
-        html: htmlTemplate(data),
-        text: textTemplate(data)
-      };
+      return { subject, html, text };
     } catch (error) {
       throw new Error(`Template rendering failed: ${(error as Error).message}`);
     }
+  }
+
+  private replaceVariables(template: string, data: EmailData): string {
+    let result = template;
+    
+    // Replace simple variables like {{userName}}
+    Object.keys(data).forEach(key => {
+      const value = data[key];
+      if (value !== undefined && value !== null) {
+        const regex = new RegExp(`{{${key}}}`, 'g');
+        result = result.replace(regex, String(value));
+      }
+    });
+
+    // Handle conditional blocks {{#if variable}}...{{/if}}
+    result = result.replace(/{{#if\s+(\w+)}}(.*?){{\/if}}/gs, (match, variable, content) => {
+      return data[variable] ? content : '';
+    });
+
+    return result;
   }
 
   clearCache(): void {

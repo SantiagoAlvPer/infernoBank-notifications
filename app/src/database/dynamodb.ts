@@ -38,49 +38,53 @@ export class DynamoDBService {
   }
 
   async updateNotificationStatus(
-    notificationId: string,
-    status: NotificationStatus,
-    sentAt?: string,
-    messageId?: string,
-    errorMessage?: string
-  ): Promise<void> {
-    try {
-      const updateExpressions: string[] = ['#status = :status'];
-      const expressionAttributeNames: Record<string, string> = { '#status': 'status' };
-      const expressionAttributeValues: Record<string, any> = { 
-        ':status': { S: status } 
-      };
+  notificationId: string,
+  createdAt: string,  // ← AGREGAR ESTE PARÁMETRO
+  status: NotificationStatus,
+  sentAt?: string,
+  messageId?: string,
+  errorMessage?: string
+): Promise<void> {
+  try {
+    const updateExpressions: string[] = ['#status = :status'];
+    const expressionAttributeNames: Record<string, string> = { '#status': 'status' };
+    const expressionAttributeValues: Record<string, any> = { 
+      ':status': { S: status } 
+    };
 
-      if (sentAt) {
-        updateExpressions.push('sentAt = :sentAt');
-        expressionAttributeValues[':sentAt'] = { S: sentAt };
-      }
-
-      if (messageId) {
-        updateExpressions.push('messageId = :messageId');
-        expressionAttributeValues[':messageId'] = { S: messageId };
-      }
-
-      if (errorMessage) {
-        updateExpressions.push('errorMessage = :errorMessage');
-        expressionAttributeValues[':errorMessage'] = { S: errorMessage };
-      }
-
-      const command = new UpdateItemCommand({
-        TableName: this.notificationTable,
-        Key: marshall({ uuid: notificationId }),
-        UpdateExpression: `SET ${updateExpressions.join(', ')}`,
-        ExpressionAttributeNames: expressionAttributeNames,
-        ExpressionAttributeValues: expressionAttributeValues
-      });
-
-      await this.dynamoClient.send(command);
-      console.log(`📝 Notification status updated: ${notificationId} -> ${status}`);
-    } catch (error) {
-      console.error('Failed to update notification status:', error);
-      throw new Error(`DynamoDB update failed: ${(error as Error).message}`);
+    if (sentAt) {
+      updateExpressions.push('sentAt = :sentAt');
+      expressionAttributeValues[':sentAt'] = { S: sentAt };
     }
+
+    if (messageId) {
+      updateExpressions.push('messageId = :messageId');
+      expressionAttributeValues[':messageId'] = { S: messageId };
+    }
+
+    if (errorMessage) {
+      updateExpressions.push('errorMessage = :errorMessage');
+      expressionAttributeValues[':errorMessage'] = { S: errorMessage };
+    }
+
+    const command = new UpdateItemCommand({
+      TableName: this.notificationTable,
+      Key: marshall({ 
+        uuid: notificationId,
+        createdAt: createdAt  // ← AGREGAR ESTE CAMPO
+      }),
+      UpdateExpression: `SET ${updateExpressions.join(', ')}`,
+      ExpressionAttributeNames: expressionAttributeNames,
+      ExpressionAttributeValues: expressionAttributeValues
+    });
+
+    await this.dynamoClient.send(command);
+    console.log(`📝 Notification status updated: ${notificationId} -> ${status}`);
+  } catch (error) {
+    console.error('Failed to update notification status:', error);
+    throw new Error(`DynamoDB update failed: ${(error as Error).message}`);
   }
+}
 
   async saveNotificationError(errorRecord: any): Promise<void> {
     try {

@@ -1,6 +1,6 @@
 // Crear: app/src/handlers/httpNotification.handler.ts
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { NotificationService } from '../service/notificationsServices';
+import { NotificationService } from './notificationsServices';
 import { NotificationData } from '../common/types';
 
 const notificationService = new NotificationService();

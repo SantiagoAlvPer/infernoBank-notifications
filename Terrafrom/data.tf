@@ -1,7 +1,7 @@
 data "archive_file" "notification_lambda" {
   type        = "zip"
   source_dir  = "${path.module}/../app/dist"
-  output_path = "${path.module}/../notification-lambda.zip"
+  output_path = "app.zip"
   excludes    = [
     ".DS_Store",
     "Thumbs.db"

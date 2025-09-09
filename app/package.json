@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/handlers/*.ts --bundle --outdir=dist/ --platform=node --external:nodemailer --external:handlebars"
+    "build": "esbuild src/handlers/*.ts --bundle --outdir=dist/ --platform=node "
   },
   "keywords": [],
   "author": "",

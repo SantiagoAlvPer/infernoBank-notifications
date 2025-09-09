@@ -13,9 +13,10 @@ export enum NotificationType {
 export type NotificationStatus = 'PENDING' | 'SENT' | 'FAILED';
 
 export interface BaseNotification {
-  id: string;
+  uuid: string;
   userEmail: string;
   userId: string;
+  createdAt?: string;
 }
 
 export interface WelcomeNotification extends BaseNotification {
