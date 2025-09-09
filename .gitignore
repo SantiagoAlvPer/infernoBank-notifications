@@ -137,3 +137,65 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Archivos ZIP
+*.zip
+
+# Terraform state files y backup
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Terraform crash log files
+crash.log
+crash.*.log
+
+# Terraform plans
+*.tfplan
+*.tfplan.*
+
+# Terraform variables files (pueden contener credenciales)
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# AWS credentials y configuración
+.aws/
+aws-credentials.json
+*.pem
+*.key
+.env.local
+.env.production
+.env.staging
+
+# Archivos de configuración con credenciales
+config.json
+secrets.json
+credentials.json
+.credentials
+.secrets
+
+# Variables de entorno específicas
+.env.aws
+.env.terraform
+.env.production.local
+
+# Archivos de backup de editores
+*~
+.#*
+#*#
+
+# Archivos temporales de AWS CLI
+.aws-sam/
+
+# Compilado/distribución
+dist/
+build/
+

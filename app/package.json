@@ -1,0 +1,39 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/handlers/*.ts --bundle --outdir=dist/ --platform=node --external:nodemailer --external:handlebars"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.152",
+    "@types/http-errors": "^2.0.5",
+    "@types/node": "^24.3.0",
+    "@types/nodemailer": "^7.0.1",
+    "@types/uuid": "^10.0.0",
+    "esbuild": "^0.25.9",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.868.0",
+    "@aws-sdk/client-s3": "^3.876.0",
+    "@aws-sdk/client-secrets-manager": "^3.879.0",
+    "@aws-sdk/client-sqs": "^3.876.0",
+    "@aws-sdk/lib-dynamodb": "^3.868.0",
+    "@aws-sdk/s3-request-presigner": "^3.879.0",
+    "@aws-sdk/util-dynamodb": "^3.868.0",
+    "@middy/core": "^6.4.1",
+    "@middy/http-error-handler": "^6.4.3",
+    "aws-lambda": "^1.0.7",
+    "bcryptjs": "^3.0.2",
+    "http-errors": "^2.0.0",
+    "joi": "^18.0.0",
+    "nodemailer": "^7.0.6",
+    "uuid": "^11.1.0"
+  }
+}
