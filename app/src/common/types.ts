@@ -1,16 +1,16 @@
 export enum NotificationType {
   WELCOME = "WELCOME",
-  USER_LOGIN = "USER.LOGIN", 
+  USER_LOGIN = "USER.LOGIN",
   USER_UPDATE = "USER.UPDATE",
   CARD_CREATE = "CARD.CREATE",
   CARD_ACTIVATE = "CARD.ACTIVATE",
   TRANSACTION_PURCHASE = "TRANSACTION.PURCHASE",
-  TRANSACTION_SAVE = "TRANSACTION.SAVE", 
+  TRANSACTION_SAVE = "TRANSACTION.SAVE",
   TRANSACTION_PAID = "TRANSACTION.PAID",
-  REPORT_ACTIVITY = "REPORT.ACTIVITY"
+  REPORT_ACTIVITY = "REPORT.ACTIVITY",
 }
 
-export type NotificationStatus = 'PENDING' | 'SENT' | 'FAILED';
+export type NotificationStatus = "PENDING" | "SENT" | "FAILED";
 
 export interface BaseNotification {
   uuid: string;
@@ -69,7 +69,7 @@ export interface ReportActivityNotification extends BaseNotification {
   };
 }
 
-export type NotificationData = 
+export type NotificationData =
   | WelcomeNotification
   | UserNotification
   | CardNotification

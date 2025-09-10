@@ -6,7 +6,7 @@ const baseNotificationSchema = {
   uuid: joi.string().uuid().required(),
   userEmail: joi.string().email().required(), 
   userId: joi.string().min(1).required(),
-  createdAt: joi.string().isoDate().optional(), // Opcional porque se genera automáticamente
+  createdAt: joi.string().isoDate().optional(),
 };
 
 export const WelcomeSchema = joi.object({
@@ -95,8 +95,8 @@ export function validateNotification(data: any): {
 
   const { error, value } = schema.validate(data, { 
     abortEarly: false,
-    stripUnknown: true, // Remueve campos no definidos
-    convert: true,      // Convierte tipos automáticamente
+    stripUnknown: true, 
+    convert: true,      
   });
   
   if (error) {

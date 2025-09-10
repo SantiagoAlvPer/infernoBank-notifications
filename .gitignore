@@ -165,6 +165,7 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+.terraform.lock.hcl
 
 # AWS credentials y configuración
 .aws/

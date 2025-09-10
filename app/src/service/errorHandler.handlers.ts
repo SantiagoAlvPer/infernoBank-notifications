@@ -38,14 +38,13 @@ async function processErrorRecord(record: any): Promise<void> {
     // Intentar parsear el mensaje original
     parsedMessage = JSON.parse(record.body);
     console.log(
-      `🔍 Analyzing error for message type: ${parsedMessage.type || "unknown"}`
+      `Analyzing error for message type: ${parsedMessage.type || "unknown"}`
     );
   } catch (parseError) {
     errorType = "MESSAGE_PARSE_ERROR";
-    console.log(`❌ Failed to parse message: ${parseError}`);
+    console.log(`Failed to parse message: ${parseError}`);
   }
 
-  // 🔍 NUEVO: Detectar y analizar errores de validación de esquemas
   if (parsedMessage) {
     const schemaAnalysis = await analyzeSchemaValidation(parsedMessage);
     if (schemaAnalysis.hasSchemaErrors) {
@@ -66,12 +65,10 @@ async function processErrorRecord(record: any): Promise<void> {
     attributes: JSON.stringify(record.attributes),
     retryCount: record.attributes?.ApproximateReceiveCount || "0",
 
-    // 🆕 NUEVOS CAMPOS: Información específica del mensaje
     userEmail: parsedMessage?.userEmail || "unknown",
     userId: parsedMessage?.userId || "unknown",
     notificationType: parsedMessage?.type || "unknown",
 
-    // 🆕 CORRECCIÓN: Detalles de validación de esquemas (usando ?? en lugar de ||)
     validationErrors: errorDetails.validationErrors ?? null,
     schemaUsed: errorDetails.schemaUsed ?? null,
     missingFields: errorDetails.missingFields ?? null,
@@ -86,15 +83,11 @@ async function processErrorRecord(record: any): Promise<void> {
   };
 
   await dynamoService.saveNotificationError(errorRecord);
-  console.log(`💥 ${errorType} record saved: ${errorRecord.uuid}`);
+  console.log(`${errorType} record saved: ${errorRecord.uuid}`);
 
-  // 📊 NUEVO: Log estadísticas de errores
   await logErrorStatistics(errorType, parsedMessage?.type);
 }
 
-/**
- * 🔍 CORRECCIÓN: Analiza específicamente errores de validación de esquemas Joi
- */
 async function analyzeSchemaValidation(message: any): Promise<{
   hasSchemaErrors: boolean;
   validationErrors?: string[];
@@ -107,7 +100,7 @@ async function analyzeSchemaValidation(message: any): Promise<{
 
     if (!validation.isValid) {
       console.log(
-        `🔍 Schema validation failed for type '${message.type}':`,
+        ` Schema validation failed for type '${message.type}':`,
         validation.errors
       );
 
@@ -215,14 +208,14 @@ async function logErrorStatistics(
       errorType: errorType,
       notificationType: notificationType,
       count: 1,
-      date: new Date().toISOString().split("T")[0], // Solo fecha YYYY-MM-DD
+      date: new Date().toISOString().split("T")[0], 
       hour: new Date().getHours(),
     };
 
     // Opcional: usar una tabla separada para estadísticas o la misma tabla de errores
     await dynamoService.saveNotificationError(statsRecord);
     console.log(
-      `📊 Error statistics logged: ${errorType} for ${notificationType}`
+      `Error statistics logged: ${errorType} for ${notificationType}`
     );
   } catch (error) {
     console.error("Failed to log error statistics:", error);

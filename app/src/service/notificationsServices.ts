@@ -168,7 +168,7 @@ export class NotificationService {
 
   async sendBulkNotifications(notifications: NotificationData[]): Promise<string[]> {
     const results: string[] = [];
-    const batchSize = 10; // Procesar en lotes
+    const batchSize = 10; 
 
     for (let i = 0; i < notifications.length; i += batchSize) {
       const batch = notifications.slice(i, i + batchSize);

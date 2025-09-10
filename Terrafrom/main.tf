@@ -122,8 +122,8 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 }
 
 # Cambiar el nombre del CloudWatch Log Group (línea 114)
-resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {             # Cambiar nombre aquí
-  name              = "/aws/lambda/${var.project_name}-v2-${var.stage}" # Cambiar nombre aquí
+resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {             
+  name              = "/aws/lambda/${var.project_name}-v2-${var.stage}" 
   retention_in_days = 14
 
   tags = {
@@ -139,10 +139,6 @@ resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {             # Cambia
 #   bucket = "infernobank-notifications-templates-dev-42qjjap1"
 # }
 
-# # S3 Bucket para notifications (AGREGAR - referenciado en data.tf)
-# resource "aws_s3_bucket" "notification_bucket" {
-#   bucket = "infernobank-notifications-notifications-dev-jwl7dsk2"
-# }
 
 # resource "random_string" "bucket_suffix" {
 #   length  = 8
@@ -150,7 +146,6 @@ resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {             # Cambia
 #   upper   = false
 # }
 
-# No lambdas duplicadas - solo la principal que está arriba
 # DynamoDB Tables según contratos
 resource "aws_dynamodb_table" "notifications_table" {
   name           = "notification-table"
@@ -205,7 +200,7 @@ resource "aws_sqs_queue" "notification_email_sqs" {
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.notification_email_error_sqs.arn
-    maxReceiveCount     = 5
+    maxReceiveCount     = 2
   })
 }
 

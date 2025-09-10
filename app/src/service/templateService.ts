@@ -30,7 +30,7 @@ export class S3TemplateService {
   private s3Client: S3Client;
   private templatesBucket: string;
   private templateCache = new Map<string, TemplateData>();
-  private cacheTimeout = 5 * 60 * 1000; // 5 minutos
+  private cacheTimeout = 5 * 60 * 1000; 
   private cacheTimestamps = new Map<string, number>();
 
   constructor() {
@@ -117,7 +117,7 @@ export class S3TemplateService {
 
   private getTemplatePath(type: NotificationType): string {
     const templatePaths: Record<NotificationType, string> = {
-      [NotificationType.WELCOME]: 'welcome', // Solo para referencia, se maneja especial
+      [NotificationType.WELCOME]: 'welcome',
       [NotificationType.USER_LOGIN]: 'user/login',
       [NotificationType.USER_UPDATE]: 'user/update',
       [NotificationType.CARD_CREATE]: 'card/create',
@@ -156,7 +156,6 @@ export class S3TemplateService {
   private replaceVariables(template: string, data: EmailData): string {
     let result = template;
     
-    // Replace simple variables like {{userName}}
     Object.keys(data).forEach(key => {
       const value = data[key];
       if (value !== undefined && value !== null) {
@@ -165,7 +164,6 @@ export class S3TemplateService {
       }
     });
 
-    // Handle conditional blocks {{#if variable}}...{{/if}}
     result = result.replace(/{{#if\s+(\w+)}}(.*?){{\/if}}/gs, (match, variable, content) => {
       return data[variable] ? content : '';
     });

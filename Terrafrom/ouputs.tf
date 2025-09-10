@@ -13,6 +13,11 @@ output "dynamodb_table_name" {
   value       = aws_dynamodb_table.notifications_table.name
 }
 
+output "dynamodb_table_error_name" {
+  description = "Nombre de la tabla DynamoDB para errores"
+  value       = aws_dynamodb_table.notifications_error_table.name
+}
+
 # output "s3_bucket_name" {
 #   description = "Nombre del bucket S3"
 #   value       = aws_s3_bucket.templates_bucket.bucket

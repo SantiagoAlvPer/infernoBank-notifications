@@ -32,7 +32,7 @@ export class DynamoDBService {
       });
 
       await this.dynamoClient.send(command);
-      console.log(`💾 Notification record saved: ${record.uuid}`);
+      console.log(`Notification record saved: ${record.uuid}`);
     } catch (error) {
       console.error("Failed to save notification record:", error);
       throw new Error(`DynamoDB save failed: ${(error as Error).message}`);
@@ -41,7 +41,7 @@ export class DynamoDBService {
 
   async updateNotificationStatus(
     notificationId: string,
-    createdAt: string, // ← AGREGAR ESTE PARÁMETRO
+    createdAt: string,
     status: NotificationStatus,
     sentAt?: string,
     messageId?: string,
@@ -75,7 +75,7 @@ export class DynamoDBService {
         TableName: this.notificationTable,
         Key: marshall({
           uuid: notificationId,
-          createdAt: createdAt, // ← AGREGAR ESTE CAMPO
+          createdAt: createdAt,
         }),
         UpdateExpression: `SET ${updateExpressions.join(", ")}`,
         ExpressionAttributeNames: expressionAttributeNames,
@@ -84,7 +84,7 @@ export class DynamoDBService {
 
       await this.dynamoClient.send(command);
       console.log(
-        `📝 Notification status updated: ${notificationId} -> ${status}`
+        `Notification status updated: ${notificationId} -> ${status}`
       );
     } catch (error) {
       console.error("Failed to update notification status:", error);
@@ -100,7 +100,7 @@ export class DynamoDBService {
       });
 
       await this.dynamoClient.send(command);
-      console.log(`💥 Error record saved: ${errorRecord.uuid}`);
+      console.log(`Error record saved: ${errorRecord.uuid}`);
     } catch (error) {
       console.error("Failed to save error record:", error);
       throw new Error(
@@ -116,13 +116,13 @@ export class DynamoDBService {
     try {
       const command = new QueryCommand({
         TableName: this.notificationTable,
-        IndexName: "userId-createdAt-index", // GSI necesario
+        IndexName: "userId-createdAt-index",
         KeyConditionExpression: "userId = :userId",
         ExpressionAttributeValues: {
           ":userId": { S: userId },
         },
         Limit: limit,
-        ScanIndexForward: false, // Más recientes primero
+        ScanIndexForward: false,
       });
 
       const response = await this.dynamoClient.send(command);

@@ -13,8 +13,8 @@ export interface EmailConfig {
 
 export const gmailConfig: EmailConfig = {
   host: "smtp.gmail.com",
-  port: 465, // o 465 para SSL
-  secure: true, // true para puerto 465, false para otros puertos
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GMAIL_USER || "",
     pass: process.env.GMAIL_APP_PASSWORD || "",
@@ -24,7 +24,7 @@ export const gmailConfig: EmailConfig = {
 
 export const createGmailTransporter = (): Transporter => {
   const transportOptions = {
-    service: 'gmail', // 
+    service: "gmail",
     auth: {
       user: process.env.GMAIL_USER || "",
       pass: process.env.GMAIL_APP_PASSWORD || "",
@@ -35,8 +35,5 @@ export const createGmailTransporter = (): Transporter => {
 };
 
 export const validateGmailConfig = (): boolean => {
-  return !!(
-    gmailConfig.auth.user &&
-    gmailConfig.auth.pass
-  );
+  return !!(gmailConfig.auth.user && gmailConfig.auth.pass);
 };
