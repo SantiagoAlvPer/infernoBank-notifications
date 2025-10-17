@@ -1,0 +1,1 @@
+Nueva tarjeta {{cardType}} creada en tu cuentaNueva tarjeta {{cardType}} creada en tu cuentaNueva tarjeta {{type}} creada en tu cuenta

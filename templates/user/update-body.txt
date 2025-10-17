@@ -1,0 +1,19 @@
+Información ActualizadaInformación Actualizada
+
+
+
+La información de tu cuenta ha sido actualizada exitosamente.Tu información de cuenta ha sido actualizada exitosamente.
+
+
+
+Si no realizaste este cambio, contacta a soporte inmediatamente.Detalles:
+
+- Fecha de Actualización: {{date}}
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.Si no realizaste esta actualización, por favor contacta inmediatamente a nuestro equipo de soporte.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

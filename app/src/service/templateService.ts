@@ -37,7 +37,7 @@ export class S3TemplateService {
     this.s3Client = new S3Client({ 
       region: process.env.REGION || 'us-east-2' 
     });
-    this.templatesBucket = process.env.S3_BUCKET_NAME || 'infernobank-notifications-templates-dev-jwl7dsk2';
+    this.templatesBucket = process.env.S3_BUCKET_NAME || '';
   }
 
   async getTemplate(type: NotificationType): Promise<TemplateData> {
@@ -142,6 +142,19 @@ export class S3TemplateService {
     text: string;
   } {
     try {
+      // Formatear fecha si existe
+      if (data.date) {
+        const dateObj = new Date(data.date);
+        if (!isNaN(dateObj.getTime())) {
+          data.date = dateObj.toLocaleString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        }
+      }
       // Simple string replacement instead of Handlebars
       const subject = this.replaceVariables(template.subject, data);
       const html = this.replaceVariables(template.html, data);

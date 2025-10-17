@@ -1,0 +1,1 @@
+Tu tarjeta {{cardType}} ha sido activadaTu tarjeta {{cardType}} ha sido activadaTu tarjeta {{type}} ha sido activada

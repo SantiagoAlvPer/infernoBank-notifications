@@ -1,0 +1,27 @@
+¡Tarjeta Activada!¡Tarjeta Activada!¡Tarjeta Activada!
+
+
+
+Tu tarjeta {{cardType}} ha sido activada y está lista para usar.
+
+
+
+Fecha de Activación: {{date}}Tu tarjeta {{cardType}} ha sido activada y está lista para usar.¡Excelente! Tu tarjeta {{type}} ha sido activada y está lista para usar.
+
+
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.
+---Detalles:
+
+© 2025 InfernoBank. Todos los derechos reservados.- Tipo de Tarjeta: {{type}}
+- Fecha de Activación: {{date}}
+
+Ya puedes comenzar a realizar compras y disfrutar de todos los beneficios de tu tarjeta InfernoBank.
+
+Consejo de Seguridad: Nunca compartas tu PIN o los datos de tu tarjeta con nadie. InfernoBank nunca te solicitará esta información por correo electrónico o teléfono.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

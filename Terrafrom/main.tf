@@ -24,7 +24,8 @@ resource "aws_lambda_function" "send_notifications_lambda" {
       GMAIL_USER          = "santiagoandresalvarezpereira@gmail.com",
       DYNAMODB_TABLE_NAME = aws_dynamodb_table.notifications_table.name
       ERROR_TABLE_NAME    = aws_dynamodb_table.notifications_error_table.name
-      S3_BUCKET_NAME      = "infernobank-notifications-templates-dev-jwl7dsk2"
+      S3_BUCKET_NAME      = aws_s3_bucket.templates_bucket.bucket
+      S3_ERRORS_BUCKET    = aws_s3_bucket.errors_bucket.bucket
       SQS_QUEUE_URL       = aws_sqs_queue.notification_email_sqs.url
       REGION              = var.aws_region
     }
@@ -102,8 +103,10 @@ resource "aws_iam_policy" "lambda_policy_v2" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::infernobank-notifications-templates-dev-jwl7dsk2/*",
-          "arn:aws:s3:::infernobank-notifications-templates-dev-jwl7dsk2"
+          "${aws_s3_bucket.templates_bucket.arn}/*",
+          "${aws_s3_bucket.templates_bucket.arn}",
+          "${aws_s3_bucket.errors_bucket.arn}",
+          "${aws_s3_bucket.errors_bucket.arn}/*"
         ]
       }
     ]
@@ -121,7 +124,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Cambiar el nombre del CloudWatch Log Group (línea 114)
+# Cambiar el nombre del CloudWatch 
 resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {             
   name              = "/aws/lambda/${var.project_name}-v2-${var.stage}" 
   retention_in_days = 14
@@ -134,17 +137,73 @@ resource "aws_cloudwatch_log_group" "lambda_log_group_v2" {
 }
 
 
-# # S3 Bucket para templates (AGREGAR - estaba referenciado pero no declarado)
-# resource "aws_s3_bucket" "templates_bucket" {
-#   bucket = "infernobank-notifications-templates-dev-42qjjap1"
-# }
 
+resource "aws_s3_bucket" "templates_bucket" {
+  bucket = "infernobank-notifications-templates-dev-${var.stage}-new"
+}
 
-# resource "random_string" "bucket_suffix" {
-#   length  = 8
-#   special = false
-#   upper   = false
-# }
+# Política de bucket para templates
+resource "aws_s3_bucket_policy" "templates_bucket_policy" {
+  bucket = aws_s3_bucket.templates_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowLambdaAccess"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_role.lambda_execution_role.arn
+        }
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.templates_bucket.arn,
+          "${aws_s3_bucket.templates_bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_s3_bucket" "errors_bucket" {
+  bucket = "infernobank-notifications-errors-dev-${var.stage}-new"
+}
+
+# Política de bucket para errores
+resource "aws_s3_bucket_policy" "errors_bucket_policy" {
+  bucket = aws_s3_bucket.errors_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowLambdaAccess"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_role.lambda_execution_role.arn
+        }
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.errors_bucket.arn,
+          "${aws_s3_bucket.errors_bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "random_string" "bucket_suffix" {
+  length  = 8
+  special = false
+  upper   = false
+}
 
 # DynamoDB Tables según contratos
 resource "aws_dynamodb_table" "notifications_table" {

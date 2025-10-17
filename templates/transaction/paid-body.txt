@@ -1,0 +1,32 @@
+Pago ProcesadoPago ProcesadoPago Procesado Exitosamente
+
+
+
+Tu pago ha sido procesado exitosamente.
+
+
+
+Detalles:Monto: ${{amount}}Tu pago ha sido procesado correctamente.
+
+- Monto: {{amount}}
+
+- Fecha: {{date}}Destinatario: {{merchant}}
+
+
+
+---{{#if transactionDate}}DETALLES DEL PAGO
+
+© 2025 InfernoBank. Todos los derechos reservados.
+Fecha: {{transactionDate}}- Monto: ${{amount}}
+
+{{/if}}- Destinatario: {{merchant}}
+
+- Fecha de Pago: {{date}}
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.✅ Tu pago ha sido confirmado y será reflejado en un plazo de 24 a 48 horas hábiles.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

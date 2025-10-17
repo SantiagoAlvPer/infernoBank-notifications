@@ -1,0 +1,1 @@
+Compra realizada por {{amount}} en {{merchant}}Compra realizada por ${{amount}} en {{merchant}}Compra realizada por ${{amount}} en {{merchant}}

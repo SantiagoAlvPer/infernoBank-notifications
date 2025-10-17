@@ -1,0 +1,34 @@
+Compra RealizadaCompra RealizadaCompra Realizada
+
+
+
+Se ha procesado una compra en tu cuenta.
+
+
+
+Detalles:Monto: ${{amount}}Se ha procesado una compra con tu tarjeta InfernoBank.
+
+- Monto: {{amount}}
+
+- Comercio: {{merchant}}Comercio: {{merchant}}
+
+- Fecha: {{date}}
+
+{{#if transactionDate}}DETALLES DE LA TRANSACCIÓN
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.Fecha: {{transactionDate}}- Monto: ${{amount}}
+
+{{/if}}- Comercio: {{merchant}}
+
+- Tarjeta: •••• {{cardId}}
+
+---- Fecha: {{date}}
+
+© 2025 InfernoBank. Todos los derechos reservados.
+¿No reconoces esta compra? Contacta inmediatamente a nuestro equipo de seguridad para bloquear tu tarjeta.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

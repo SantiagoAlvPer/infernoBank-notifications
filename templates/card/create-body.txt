@@ -1,0 +1,36 @@
+¡Nueva Tarjeta Creada!¡Nueva Tarjeta Creada!¡Nueva Tarjeta Creada!
+
+
+
+Tu nueva tarjeta {{cardType}} ha sido creada exitosamente.
+
+
+
+Detalles:Tu nueva tarjeta {{cardType}} ha sido creada exitosamente.Tu nueva tarjeta {{type}} ha sido creada exitosamente.
+
+- Tipo de Tarjeta: {{cardType}}
+
+- Fecha de Creación: {{date}}
+
+
+
+---Detalles:Detalles:
+
+© 2025 InfernoBank. Todos los derechos reservados.
+- Tipo de Tarjeta: {{cardType}}- Tipo de Tarjeta: {{type}}
+
+{{#if expirationDate}}- Fecha de Creación: {{date}}
+
+- Fecha de Expiración: {{expirationDate}}{{#if amount}}
+
+{{/if}}- Límite de Crédito: ${{amount}}
+
+{{/if}}
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.Tu tarjeta física llegará a tu dirección registrada en un plazo de 5 a 7 días hábiles. Recuerda activarla antes de realizar tu primera compra.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

@@ -1,0 +1,11 @@
+Nuevo Inicio de Sesión Detectado
+
+Se ha detectado un nuevo inicio de sesión en tu cuenta de InfernoBank.
+
+Detalles:
+- Fecha y Hora: {{date}}
+
+Si este inicio de sesión no fue realizado por ti, por favor contacta inmediatamente a nuestro equipo de soporte.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.

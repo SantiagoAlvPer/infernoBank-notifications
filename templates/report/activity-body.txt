@@ -1,0 +1,37 @@
+Reporte de ActividadTu Reporte está ListoTu Reporte de Actividad está Listo
+
+
+
+Tu reporte de actividad ha sido generado exitosamente.
+
+
+
+Fecha de Generación: {{date}}Hemos generado tu reporte de actividad bancaria.Hemos generado tu reporte de actividad bancaria con toda la información de tus transacciones y movimientos.
+
+
+
+Puedes descargar tu reporte en el siguiente enlace:
+
+{{url}}
+
+Descargar: {{url}}Fecha de Generación: {{date}}
+
+---
+
+© 2025 InfernoBank. Todos los derechos reservados.
+
+---CONTENIDO DEL REPORTE
+
+© 2025 InfernoBank. Todos los derechos reservados.- Resumen de transacciones
+- Movimientos de tarjetas
+- Historial de pagos
+- Análisis de gastos
+- Estado de cuenta actual
+
+Descarga tu reporte aquí: {{url}}
+
+Nota: Este enlace expirará en 7 días por razones de seguridad. Si necesitas acceder al reporte después de ese tiempo, puedes generar uno nuevo desde tu cuenta.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

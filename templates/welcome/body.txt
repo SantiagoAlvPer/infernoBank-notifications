@@ -1,0 +1,26 @@
+¡Bienvenido, {{userName}}!¡Bienvenido a InfernoBank!
+
+
+
+Estamos encantados de tenerte con nosotros. Tu cuenta ha sido creada exitosamente.Hola {{fullname}},
+
+
+
+Detalles de tu cuenta:Estamos emocionados de tenerte como parte de la familia InfernoBank. Tu cuenta ha sido creada exitosamente y estás listo para comenzar tu experiencia bancaria digital.
+
+- Número de Cuenta: {{accountNumber}}
+
+- Fecha de Registro: {{registrationDate}}Con InfernoBank puedes:
+
+- Realizar transacciones de manera segura
+
+---- Administrar tus tarjetas de crédito y débito
+
+© 2025 InfernoBank. Todos los derechos reservados.- Recibir notificaciones en tiempo real
+- Acceder a reportes de actividad detallados
+
+Si tienes alguna pregunta, no dudes en contactarnos. Estamos aquí para ayudarte.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.

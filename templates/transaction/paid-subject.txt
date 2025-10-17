@@ -1,0 +1,1 @@
+Pago procesado: {{amount}} pagado exitosamentePago procesado: ${{amount}} a {{merchant}}Pago procesado: ${{amount}} a {{merchant}}

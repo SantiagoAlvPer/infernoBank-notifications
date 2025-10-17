@@ -1,0 +1,31 @@
+¡Ahorro Exitoso!¡Ahorro Registrado!¡Ahorro Registrado!
+
+
+
+Tu dinero ha sido guardado exitosamente en tu cuenta de ahorros.
+
+
+
+Detalles:Monto: +${{amount}}¡Felicitaciones! Has agregado un nuevo ahorro a tu cuenta.
+
+- Monto Ahorrado: {{amount}}
+
+- Fecha: {{date}}{{#if transactionDate}}
+
+
+
+---Fecha: {{transactionDate}}DETALLES DEL AHORRO
+
+© 2025 InfernoBank. Todos los derechos reservados.
+{{/if}}- Monto: +${{amount}}
+
+- Destino: {{merchant}}
+
+---- Fecha: {{date}}
+
+© 2025 InfernoBank. Todos los derechos reservados.
+💡 Tip: Continúa ahorrando regularmente para alcanzar tus metas financieras más rápido.
+
+---
+© 2025 InfernoBank. Todos los derechos reservados.
+Este es un correo automático, por favor no responder.
